@@ -9,10 +9,23 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Remove static export to enable API routes
-  trailingSlash: true,
+  // Cloudflare Pages routing configuration
+  trailingSlash: false,
   images: {
     unoptimized: true,
+  },
+  // Add custom rewrites for proper routing
+  async rewrites() {
+    return [
+      {
+        source: '/create-pool',
+        destination: '/create-pool',
+      },
+      {
+        source: '/token/:id',
+        destination: '/token/:id',
+      },
+    ];
   },
   // Disable webpack caching completely for Cloudflare Pages
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {

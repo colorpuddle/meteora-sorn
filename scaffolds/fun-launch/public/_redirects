@@ -1,0 +1,6 @@
+# Cloudflare Pages redirects for Next.js routing
+/create-pool /create-pool 200
+/create-pool/ /create-pool 200
+/token/* /token/:splat 200
+/api/* /api/:splat 200
+/* /index.html 200
