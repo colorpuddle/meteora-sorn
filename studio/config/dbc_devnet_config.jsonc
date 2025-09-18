@@ -1,0 +1,97 @@
+{
+  /* rpcUrl is required. Using devnet for testing */
+  "rpcUrl": "https://api.devnet.solana.com",
+
+  /* dryRun: Set to false for actual deployment testing */
+  "dryRun": false,
+
+  /* keypairFilePath is required and will be the payer + signer for all transactions */
+  "keypairFilePath": "./keypair.json",
+
+  /* computeUnitPriceMicroLamports - Lower for devnet */
+  "computeUnitPriceMicroLamports": 100000,
+
+  /* quoteMint - Using SOL as the quote token for devnet testing */
+  "quoteMint": "So11111111111111111111111111111111111111112", // SOL devnet
+
+  /* baseMint - Will be generated during token creation */
+  "baseMint": null,
+
+  /* DBC Configuration for Devnet Testing */
+  "dbcConfig": {
+    "buildCurveMode": 0, // 0 - buildCurve (simple percentage-based curve)
+
+    /* Basic Curve Parameters */
+    "percentageSupplyOnMigration": 20, // 20% of total supply available on bonding curve (200M out of 1B)
+    "migrationQuoteThreshold": 50, // 50 SOL needed to complete bonding curve and migrate to AMM
+
+    /* Token Configuration */
+    "totalTokenSupply": 1000000000, // 1 billion tokens total supply
+    "migrationOption": 1, // 1 - Migrate to DAMM v2 (modern AMM)
+    "tokenBaseDecimal": 6, // 6 decimals for the new token
+    "tokenQuoteDecimal": 9, // 9 decimals for SOL
+
+    /* Vesting Configuration - No vesting for fair launch */
+    "lockedVestingParam": {
+      "totalLockedVestingAmount": 0, // No vesting tokens
+      "numberOfVestingPeriod": 0,
+      "cliffUnlockAmount": 0,
+      "totalVestingDuration": 0,
+      "cliffDurationFromMigrationTime": 0
+    },
+
+    /* Fee Configuration - 1% base fee */
+    "baseFeeParams": {
+      "baseFeeMode": 0, // Linear fee scheduler
+      "feeSchedulerParam": {
+        "startingFeeBps": 100, // Start with 1% trading fee (100 bps)
+        "endingFeeBps": 100, // Keep constant 1% trading fee
+        "numberOfPeriod": 0, // 0 for constant fee
+        "totalDuration": 0 // 0 for constant fee
+      }
+    },
+
+    /* Advanced Settings */
+    "dynamicFeeEnabled": true, // Enable dynamic fees for price discovery
+    "activationType": 1, // Use timestamp (more predictable than slots)
+    "collectFeeMode": 0, // Collect fees in SOL (quote token)
+    "migrationFeeOption": 1, // 0.30% LP fee for AMM pool after migration
+    "tokenType": 0, // Standard SPL token
+
+    /* Liquidity Distribution */
+    "partnerLpPercentage": 0, // No partner LP percentage
+    "creatorLpPercentage": 0, // 0% withdrawable LP tokens to creator
+    "partnerLockedLpPercentage": 100, // 100% partner locked LP
+    "creatorLockedLpPercentage": 0, // 0% creator locked LP
+
+    /* Revenue Sharing */
+    "creatorTradingFeePercentage": 0, // 0% of trading fees to creator during bonding curve
+    "leftover": 0, // No leftover tokens (all on curve)
+    "tokenUpdateAuthority": 0, // 0 - Transferable token update authority
+
+    /* Migration Fees */
+    "migrationFee": {
+      "feePercentage": 1, // 1% migration fee
+      "creatorFeePercentage": 1 // 1% creator migration fee
+    },
+
+    /* Fee Recipients - Use devnet test addresses */
+    "leftoverReceiver": "GL8S9FJ439BffGV7ZnifrFzoxzJBm9YpbHdgrXk2zDgJ", // Your devnet test address
+    "feeClaimer": "GL8S9FJ439BffGV7ZnifrFzoxzJBm9YpbHdgrXk2zDgJ" // Your devnet test address
+  },
+
+  /* Token Metadata for testing */
+  "dbcPool": {
+    "name": "TestToken", // Test token name
+    "symbol": "TEST", // Test token symbol
+    "uri": "https://arweave.net/test-metadata-hash" // Test metadata URI
+  },
+
+  /* Swap Configuration for testing */
+  "dbcSwap": {
+    "amountIn": 0.01, // 0.01 SOL for devnet testing (smaller amounts)
+    "slippageBps": 500, // 5% slippage tolerance
+    "swapBaseForQuote": false, // Buying tokens with SOL
+    "referralTokenAccount": null
+  }
+}

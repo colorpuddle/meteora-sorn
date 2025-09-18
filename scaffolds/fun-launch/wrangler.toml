@@ -1,0 +1,14 @@
+# Cloudflare Pages configuration file
+compatibility_date = "2023-05-18"
+compatibility_flags = ["nodejs_compat"]
+
+[build]
+command = "npm run build"
+publish = ".next"
+
+[[env_vars]]
+name = "NODE_ENV"
+value = "production"
+
+[functions]
+node_version = "20"

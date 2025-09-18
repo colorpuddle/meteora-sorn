@@ -1,0 +1,47 @@
+name: Deploy to Cloudflare Pages (Secure)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Build and Deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'scaffolds/fun-launch/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: scaffolds/fun-launch
+        run: npm ci
+
+      - name: Build application
+        working-directory: scaffolds/fun-launch
+        run: npm run build
+        env:
+          # Secure environment variables from GitHub Secrets
+          ARWEAVE_WALLET_KEY: ${{ secrets.ARWEAVE_UPLOAD_WALLET_KEY }}
+          RPC_URL: ${{ secrets.RPC_URL }}
+          POOL_CONFIG_KEY: ${{ secrets.POOL_CONFIG_KEY }}
+          NODE_ENV: production
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: fun-launch
+          directory: scaffolds/fun-launch/.next
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Don't include sensitive environment variables in deployment
+          # They will be set during build time only
