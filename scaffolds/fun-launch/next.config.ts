@@ -9,16 +9,11 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Optimize for production builds
-  experimental: {
-    optimizeCss: true,
-  },
-  // Disable webpack cache in production
-  webpack: (config, { isServer, dev }) => {
-    if (!dev) {
-      config.cache = false;
-    }
-    return config;
+  // Optimize for Cloudflare Pages deployment
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
   },
 };
 
