@@ -9,8 +9,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Optimize for Cloudflare Pages deployment
-  output: 'export',
+  // Remove static export to enable API routes
   trailingSlash: true,
   images: {
     unoptimized: true,
